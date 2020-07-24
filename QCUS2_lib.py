@@ -37,12 +37,13 @@ input: dicomobject,pixeldata (the pixeldata is already cleaned; color is removed
 
 
 Changelog:
+    20200724: bugfix: did not store dicomtags properly
     20200722: Add curved box to overview
     20200721: Drop sensitivity analysis as it I dont know what it means; 
               just keep max depth as it could be interesting for signal level
     20200717: Based on US_AirReverberations v20200508 (aschilham, pvanhorsen), but simpler
 """
-__version__ = '20200722'
+__version__ = '20200724'
 __author__ = 'aschilham'
 
 import numpy as np
@@ -465,12 +466,13 @@ class Analysis(QCObject):
                     value = ''.join(list(filter(lambda x: x in printable, value)))
                 except:
                     value = ""
-            if dtype in ['string']:
-                results[dtype].append( (df[1], value) )
-            elif dtype in ['int']:
-                results[dtype].append( (df[1], int(value))  )
-            elif dtype in ['float']:
-                results[dtype].append( (df[1], float(value))  )
+                    
+                if dtype in ['string']:
+                    results[dtype].append( (df[1], value) )
+                elif dtype in ['int']:
+                    results[dtype].append( (df[1], int(value))  )
+                elif dtype in ['float']:
+                    results[dtype].append( (df[1], float(value))  )
 
         return results
 

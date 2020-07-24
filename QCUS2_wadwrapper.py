@@ -20,6 +20,7 @@
 # 
 #
 # Changelog:
+#   20200724: bugfix: did not store dicomtags properly
 #   20200722: pluginversion only once; add curved box to overview
 #   20200721: Drop sensitivity analysis as it I dont know what it means; 
 #             just keep max depth as it could be interesting for signal level
@@ -32,7 +33,7 @@
 # ./QCUS2_wadwrapper.py -d TestSet/StudyEpiqCurve/ -c Config/us2_philips_epiq_instance.json -r results_epiq.json
 #
 
-__version__ = '20200722'
+__version__ = '20200724'
 __author__ = 'aschilham'
 
 GUIMODE = True
