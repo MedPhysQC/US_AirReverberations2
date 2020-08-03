@@ -75,10 +75,10 @@
                 "f_weak": 0.5,
                 "hcor_px": 3,
                 "init_pt_x0y0x1y1": [
-                    204,
-                    129,
-                    818,
-                    767
+                    184,
+                    111,
+                    837,
+                    240
                 ],
                 "rgbchannel": "B",
                 "signal_thresh": 0,

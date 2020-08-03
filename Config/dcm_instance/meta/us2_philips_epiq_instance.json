@@ -37,18 +37,6 @@
             "display_name": "DeadElements inner 80pct",
             "units": ""
         },
-        "unif_max_pixval": {
-            "constraint_minlowhighmax": [
-                null,
-                null,
-                null,
-                253
-            ],
-            "description": "maximum pixel value in reverberation pattern",
-            "display_level": 2,
-            "display_name": "Max PixelValue",
-            "units": ""
-        },
         "unif_relmean_*00_10": {
             "constraint_minlowhighmax": [
                 0.75,
