@@ -20,6 +20,7 @@
 # 
 #
 # Changelog:
+#   20200803: bugfix: do not write out ocr images if none present; separate DICOM tags for Philips/Siemens
 #   20200724: bugfix: did not store dicomtags properly
 #   20200722: pluginversion only once; add curved box to overview
 #   20200721: Drop sensitivity analysis as it I dont know what it means; 
@@ -33,7 +34,7 @@
 # ./QCUS2_wadwrapper.py -d TestSet/StudyEpiqCurve/ -c Config/us2_philips_epiq_instance.json -r results_epiq.json
 #
 
-__version__ = '20200724'
+__version__ = '20200803'
 __author__ = 'aschilham'
 
 GUIMODE = True
@@ -381,7 +382,8 @@ if __name__ == "__main__":
     qc = None
     # read runtime parameters for module
     idname = None
-
+    ocr_rois = []
+    
     if 'ocr_series' in config['actions'].keys():
         idname = get_idname_from_ocr(data, config['actions']['ocr_series']['params'])
 
@@ -399,7 +401,8 @@ if __name__ == "__main__":
             ocr_rois, error, msg = OCR(data, results, action, idname)
 
     #label = instance.DeviceSerialNumber+'__'+''.join(instance.TransducerData).strip()
-    writeimages(qc, ocr_rois, idname)
+    if len(ocr_rois)>0:
+        writeimages(qc, ocr_rois, idname)
     
     results.write()
 

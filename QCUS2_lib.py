@@ -37,13 +37,14 @@ input: dicomobject,pixeldata (the pixeldata is already cleaned; color is removed
 
 
 Changelog:
+    20200803: separate DICOM tags for Philips/Siemens
     20200724: bugfix: did not store dicomtags properly
     20200722: Add curved box to overview
     20200721: Drop sensitivity analysis as it I dont know what it means; 
               just keep max depth as it could be interesting for signal level
     20200717: Based on US_AirReverberations v20200508 (aschilham, pvanhorsen), but simpler
 """
-__version__ = '20200724'
+__version__ = '20200803'
 __author__ = 'aschilham'
 
 import numpy as np
@@ -411,48 +412,107 @@ class Analysis(QCObject):
         import string
         printable = set(string.printable)
         
-        if info == "dicom":
-            dicomfields = {
-                'string': [
-                    ["0008,0012", "Instance Date"],
-                    ["0008,0013", "Instance Time"],
-                    ["0008,0060", "Modality"],
-                    ["0008,0070", "Manufacturer"],
-                    ["0008,1090", "Manufacturer Model Name"],
-                    ["0008,1010", "Station Name"],
-                    ["0008,1030", "Study Description"],
-                    ["0008,0068", "Presentation Intent Type"], 
-                    ["0018,1000", "Device Serial Number"],
-                    ["0018,1020", "Software Version(s)"],
-                    ["0018,1030", "Protocol Name"],
-                    ["0018,5010", "Transducer Data"],
-                    ["0018,5020", "Processing Function"],
-                    ["0028,2110", "Lossy Image Compression"],
-                    ["2050,0020", "Presentation LUT Shape"],
-                    ],
-                'float': [
-                    ["0028,0002", "Samples per Pixel"],
-                    ["0028,0101", "Bits Stored"],
-                    ["0018,6011, 0018,6024", "Physical Units X Direction"],
-                    ["0018,6011, 0018,602c", "Physical Delta X"],
-                    ] # Philips
+        try:
+            manufacturer = str(self.readDICOMtag("0008,0070")).lower()
+            if "siemens" in manufacturer:
+                manufacturer = "Siemens"
+            elif "philips" in manufacturer:
+                manufacturer = "Philips"
+            else:    
+                print("Manufacturer '{}' not implemented. Treated as 'Philips'.".format(manufacturer))
+                manufacturer = "Philips"
+        except:
+            print("Could not determine manufacturer. Assuming 'Philips'.")
+            
+        if manufacturer == "Philips":
+            if info == "dicom":
+                dicomfields = {
+                    'string': [
+                        ["0008,0012", "Instance Date"],
+                        ["0008,0013", "Instance Time"],
+                        ["0008,0060", "Modality"],
+                        ["0008,0070", "Manufacturer"],
+                        ["0008,1090", "Manufacturer Model Name"],
+                        ["0008,1010", "Station Name"],
+                        ["0008,1030", "Study Description"],
+                        ["0008,0068", "Presentation Intent Type"], 
+                        ["0018,1000", "Device Serial Number"],
+                        ["0018,1020", "Software Version(s)"],
+                        ["0018,1030", "Protocol Name"],
+                        ["0018,5010", "Transducer Data"],
+                        ["0018,5020", "Processing Function"],
+                        ["0028,2110", "Lossy Image Compression"],
+                        ["2050,0020", "Presentation LUT Shape"],
+                        ],
+                    'float': [
+                        ["0028,0002", "Samples per Pixel"],
+                        ["0028,0101", "Bits Stored"],
+                        ["0018,6011, 0018,6024", "Physical Units X Direction"],
+                        ["0018,6011, 0018,602c", "Physical Delta X"],
+                        ] # Philips
+                    }
+            elif info == "id":
+                dicomfields = {
+                    'string': [
+                        ["0008,1010", "Station Name"],
+                        ["0018,5010", "Transducer"],
+                        ["0008,0012", "InstanceDate"],
+                        ["0008,0013", "InstanceTime"]
+                    ]
                 }
-        elif info == "id":
-            dicomfields = {
-                'string': [
-                    ["0008,1010", "Station Name"],
-                    ["0018,5010", "Transducer"],
-                    ["0008,0012", "InstanceDate"],
-                    ["0008,0013", "InstanceTime"]
-                ]
-            }
  
-        elif info == "probe":
-            dicomfields = {
-                'string': [
-                    ["0018,5010", "Transducer"],
-                ]   
-            }
+            elif info == "probe":
+                dicomfields = {
+                    'string': [
+                        ["0018,5010", "Transducer"],
+                    ]   
+                }
+
+        elif manufacturer == "Siemens":
+            if info == "dicom":
+                dicomfields = {
+                    'string': [
+                        ["0008,0023", "Image Date"],
+                        ["0008,0033", "Image Time"],
+                        ["0008,0060", "Modality"],
+                        ["0008,0070", "Manufacturer"],
+                        ["0008,1090", "Manufacturer Model Name"],
+                        ["0008,1010", "Station Name"],
+                        ["0018,1000", "Device Serial Number"],
+                        ["0018,1020", "Software Version(s)"],
+                        ["0018,5010", "Transducer Data"],
+                    ],
+                    'float': [
+                        ["0028,0002", "Samples per Pixel"],
+                        ["0028,0101", "Bits Stored"],
+                        ["0018,6011, 0018,6024", "Physical Units X Direction"],
+                        ["0018,6011, 0018,602c", "Physical Delta X"],
+                        ["0018,5022", "Mechanical Index"],
+                        ["0018,5024", "Thermal Index"],
+                        ["0018,5026", "Cranial Thermal Index"],
+                        ["0018,5027", "Soft Tissue Thermal Index"],
+                        ["0019,1003", "FrameRate"],
+                        ["0019,1021", "DynamicRange"],
+                    ] # Siemens
+                }
+            
+
+            elif info == "id":
+                dicomfields = {
+                    'string': [
+                        ["0008,1010", "Station Name"],
+                        ["0018,5010", "Transducer"],
+                        ["0008,0023", "ImageDate"],
+                        ["0008,0033", "ImageTime"],
+                    ]
+                }
+ 
+            elif info == "probe":
+                dicomfields = {
+                    'string': [
+                        ["0018,5010", "Transducer"],
+                    ]   
+                }
 
         results = {}
         for dtype in dicomfields.keys():
