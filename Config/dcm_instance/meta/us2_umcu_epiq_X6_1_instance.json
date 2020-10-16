@@ -1,0 +1,169 @@
+{
+    "comments": {
+        "author": "Arnold Schilham, UMCU",
+        "creator": "generate_config_json.py version 20180912",
+        "description": "US/AirReverberations2 for Philips Epiq"
+    },
+    "metaformat": "20180910",
+    "results": {
+        "AcquisitionDateTime": {
+            "constraint_period": 14,
+            "description": "date and time of acquisition",
+            "display_level": 2,
+            "display_name": "DateTime",
+            "units": ""
+        },
+        "OCR_DynRange": {
+            "constraint_minlowhighmax": [
+                54.9,
+                null,
+                null,
+                55.1
+            ],
+            "description": "Dynamic Range setting found by OCR",
+            "display_level": 2,
+            "units": ""
+        },
+        "OCR_FrameRate": {
+            "constraint_minlowhighmax": [
+                10.9,
+                null,
+                null,
+                11.1
+            ],
+            "description": "Frame generation found by OCR",
+            "display_level": 2,
+            "units": ""
+        },
+        "OCR_LUT": {
+            "constraint_equals": "M3",
+            "description": "look-up-table used found by OCR",
+            "display_level": 2,
+            "units": ""
+        },
+        "OCR_MechIndex": {
+            "constraint_minlowhighmax": [
+                0.49,
+                null,
+                null,
+                0.51
+            ],
+            "description": "Mechanical Index setting found by OCR",
+            "display_level": 2,
+            "units": ""
+        },
+        "OCR_PenResGen": {
+            "constraint_equals": "Res",
+            "description": "image optimized for resolution, or penetration, or generic used found by OCR",
+            "display_level": 2,
+            "units": ""
+        },
+        "OCR_Persistence": {
+            "constraint_equals": "Off",
+            "description": "number of time frames used found by OCR",
+            "display_level": 2,
+            "units": ""
+        },
+        "OCR_ResSpd": {
+            "constraint_equals": "R1",
+            "description": "image resolution vs speed used found by OCR",
+            "display_level": 2,
+            "units": ""
+        },
+        "OCR_TissueIndex": {
+            "constraint_minlowhighmax": [
+                0.09,
+                null,
+                null,
+                0.11
+            ],
+            "description": "Tissue Index setting found by OCR",
+            "display_level": 2,
+            "units": ""
+        },
+        "unif_dead_*00_10": {
+            "constraint_minlowhighmax": [
+                null,
+                null,
+                null,
+                4
+            ],
+            "description": "Number of dead elements in outer 20pct",
+            "display_level": 2,
+            "display_name": "DeadElements outer 20pct",
+            "units": ""
+        },
+        "unif_dead_10_90": {
+            "constraint_minlowhighmax": [
+                null,
+                null,
+                null,
+                0
+            ],
+            "description": "Number of dead elements in inner 80pct",
+            "display_level": 2,
+            "display_name": "DeadElements inner 80pct",
+            "units": ""
+        },
+        "unif_relmean_*00_10": {
+            "constraint_minlowhighmax": [
+                0.75,
+                0.85,
+                1.15,
+                1.25
+            ],
+            "description": "Relative signal strength of outer 20pct",
+            "display_level": 2,
+            "display_name": "SignalStrength outer 20pct",
+            "units": ""
+        },
+        "unif_relmean_*10_30": {
+            "constraint_minlowhighmax": [
+                0.9,
+                0.95,
+                1.05,
+                1.1
+            ],
+            "description": "Relative signal strength of outer 20-40pct",
+            "display_level": 2,
+            "display_name": "SignalStrength outer 20-40pct",
+            "units": ""
+        },
+        "unif_relmin_10_90": {
+            "constraint_minlowhighmax": [
+                0.3,
+                0.9,
+                null,
+                null
+            ],
+            "description": "Relative strength of weakest elements in inner 80pct",
+            "display_level": 2,
+            "display_name": "Weakest element inner 80pct",
+            "units": ""
+        },
+        "unif_weaknbs_*00_10": {
+            "constraint_minlowhighmax": [
+                null,
+                null,
+                null,
+                2
+            ],
+            "description": "Number of weak adjacent elements in outer 20pct",
+            "display_level": 2,
+            "display_name": "WeakNeighbors outer 20pct",
+            "units": ""
+        },
+        "unif_weaknbs_10_90": {
+            "constraint_minlowhighmax": [
+                null,
+                null,
+                null,
+                1
+            ],
+            "description": "Number of weak adjacent elements in inner 80pct",
+            "display_level": 2,
+            "display_name": "WeakNeighbors inner 80pct",
+            "units": ""
+        }
+    }
+}

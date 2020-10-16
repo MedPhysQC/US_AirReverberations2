@@ -1,0 +1,183 @@
+{
+    "actions": {
+        "acqdatetime": {
+            "filters": {},
+            "params": {}
+        },
+        "header_series": {
+            "filters": {},
+            "params": {
+                "auto_suffix": false,
+                "rgbchannel": "B"
+            }
+        },
+        "ocr_series": {
+            "filters": {},
+            "params": {
+                "auto_suffix": false,
+                "ocr_border": 10,
+                "ocr_regions": {
+                    "OCR_DynRange": {
+                        "prefix": "R",
+                        "type": "float",
+                        "xywh": "50;179;60;18"
+                    },
+                    "OCR_FrameRate": {
+                        "suffix": "Hz",
+                        "type": "float",
+                        "xywh": "11;76;79;20"
+                    },
+                    "OCR_Gain": {
+                        "type": "float",
+                        "xywh": "21;159;27;18"
+                    },
+                    "OCR_LUT": {
+                        "type": "string",
+                        "xywh": "959;78;36;17"
+                    },
+                    "OCR_MechIndex": {
+                        "prefix": "MI",
+                        "type": "float",
+                        "xywh": "913;23;80;24"
+                    },
+                    "OCR_PenResGen": {
+                        "type": "string",
+                        "xywh": "14;218;82;20"
+                    },
+                    "OCR_Persistence": {
+                        "prefix": "P",
+                        "type": "string",
+                        "xywh": "14;200;82;20"
+                    },
+                    "OCR_ResSpd": {
+                        "type": "string",
+                        "xywh": "11;97;59;20"
+                    },
+                    "OCR_TissueIndex": {
+                        "prefix": "TIS",
+                        "type": "float",
+                        "xywh": "822;23;90;24"
+                    }
+                },
+                "ocr_threshold": 0,
+                "ocr_zoom": 3,
+                "rgbchannel": "B"
+            }
+        },
+        "qc_series": {
+            "filters": {},
+            "params": {
+                "auto_suffix": false,
+                "circle_fitfrac": 0.3333333333333333,
+                "cluster_fminsize": 300.0,
+                "cluster_mode": "all_middle",
+                "f_dead": 0.3,
+                "f_weak": 0.5,
+                "hcor_px": 3,
+                "init_pt_x0y0x1y1": [
+                    184,
+                    111,
+                    837,
+                    240
+                ],
+                "rgbchannel": "B",
+                "signal_thresh": 0,
+                "vcor_px": 2
+            }
+        }
+    },
+    "cfgformat": "20180910",
+    "comments": {
+        "author": "Arnold Schilham, UMCU",
+        "creator": "generate_config_json.py version 20180912",
+        "description": "US/AirReverberations2 for Philips Epiq",
+        "usage": [
+            "  \"OCR_xxx\": \"xywh\": \"10;30;50;25\" # x;y;width;height of bounding box of OCR_xxx",
+            "  \"OCR_xxx\": \"prefix\": \"TI\" # text in bounding box of OCR_xxx starts with this and this should be stripped",
+            "  \"OCR_xxx\": \"suffix\": \"mm\" # text in bounding box of OCR_xxx ends with this and this should be stripped",
+            "  \"OCR_xxx\": \"type\": \"float\" # after stripping prefix and suffix, text should be converted to this data type",
+            "\n",
+            "  If \"OCR_probeID\" is specified, OCR will be used to find an identifier for values, info from the dicom headers is used",
+            "\n"
+        ],
+        "version": "20200722"
+    },
+    "info": {
+        "acqdatetime": {
+            "params": {}
+        },
+        "header_series": {
+            "params": {
+                "auto_suffix": "add a probename as suffix to all results (True)",
+                "rgbchannel": "use this R-G-B channel (B)"
+            }
+        },
+        "ocr_series": {
+            "params": {
+                "auto_suffix": "add a probename as suffix to all results (True)",
+                "ocr_border": "add extra border around text in ROI before ocr analysis (10)",
+                "ocr_regions": {
+                    "OCR_DynRange": {
+                        "prefix": "text in bounding box of OCR_DynRange starts with this",
+                        "type": "contents minus prefix of bounding box of OCR_DynRange should be of this type",
+                        "xywh": "x0;y0;width;height of bounding box of OCR_DynRange"
+                    },
+                    "OCR_FrameRate": {
+                        "suffix": "text in bounding box of OCR_FrameRate starts with this",
+                        "type": "contents minus prefix of bounding box of OCR_FrameRate should be of this type",
+                        "xywh": "x0;y0;width;height of bounding box of OCR_FrameRate"
+                    },
+                    "OCR_Gain": {
+                        "type": "contents minus prefix of bounding box of OCR_Gain should be of this type",
+                        "xywh": "x0;y0;width;height of bounding box of OCR_Gain"
+                    },
+                    "OCR_LUT": {
+                        "type": "contents minus prefix of bounding box of OCR_LUT should be of this type",
+                        "xywh": "x0;y0;width;height of bounding box of OCR_LUT"
+                    },
+                    "OCR_MechIndex": {
+                        "prefix": "text in bounding box of OCR_MechIndex starts with this",
+                        "type": "contents minus prefix of bounding box of OCR_MechIndex should be of this type",
+                        "xywh": "x0;y0;width;height of bounding box of OCR_MechIndex"
+                    },
+                    "OCR_PenResGen": {
+                        "type": "contents minus prefix of bounding box of OCR_PenResGen should be of this type",
+                        "xywh": "x0;y0;width;height of bounding box of OCR_PenResGen"
+                    },
+                    "OCR_Persistence": {
+                        "prefix": "text in bounding box of OCR_Persistence starts with this",
+                        "type": "contents minus prefix of bounding box of OCR_Persistence should be of this type",
+                        "xywh": "x0;y0;width;height of bounding box of OCR_Persistence"
+                    },
+                    "OCR_ResSpd": {
+                        "type": "contents minus prefix of bounding box of OCR_ResSpd should be of this type",
+                        "xywh": "x0;y0;width;height of bounding box of OCR_ResSpd"
+                    },
+                    "OCR_TissueIndex": {
+                        "prefix": "text in bounding box of OCR_TissueIndex starts with this",
+                        "type": "contents minus prefix of bounding box of OCR_TissueIndex should be of this type",
+                        "xywh": "x0;y0;width;height of bounding box of OCR_TissueIndex"
+                    }
+                },
+                "ocr_threshold": "threshold on pixel values to remove background gradient (0)",
+                "ocr_zoom": "zoom factor before ocr analysis (10)",
+                "rgbchannel": "use this R-G-B channel (B)"
+            }
+        },
+        "qc_series": {
+            "params": {
+                "auto_suffix": "add a probename as suffix to all results (True)",
+                "circle_fitfrac": "use only this central fraction for circle fitting",
+                "cluster_fminsize": "ignore clusters smaller than imwidth*imheight/fminsize",
+                "cluster_mode": "mode of connected components analysis; either all_middle (def) or largest_only",
+                "f_dead": "below this fraction of avg signal, the element is considered dead (.5)",
+                "f_weak": "below this fraction of avg signal, the element is considered weak (.5)",
+                "hcor_px": "default lines to exclude from left and right when making profiles (10)",
+                "init_pt_x0y0x1y1": "restrict reverberation pattern to bounding box xmin;xmax;ymin;ymax in px",
+                "rgbchannel": "use this R-G-B channel (B)",
+                "signal_thresh": "threshold on pixelvalues for reverberation patterns; use>0 for noisy data (0)",
+                "vcor_px": "default lines to exclude from top and bottom when making profiles (10)"
+            }
+        }
+    }
+}
