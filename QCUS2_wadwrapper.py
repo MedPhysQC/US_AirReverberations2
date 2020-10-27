@@ -20,6 +20,7 @@
 # 
 #
 # Changelog:
+#   20201027: always write thumbnail
 #   20200803: bugfix: do not write out ocr images if none present; separate DICOM tags for Philips/Siemens
 #   20200724: bugfix: did not store dicomtags properly
 #   20200722: pluginversion only once; add curved box to overview
@@ -34,7 +35,7 @@
 # ./QCUS2_wadwrapper.py -d TestSet/StudyEpiqCurve/ -c Config/us2_philips_epiq_instance.json -r results_epiq.json
 #
 
-__version__ = '20200803'
+__version__ = '20201027'
 __author__ = 'aschilham'
 
 GUIMODE = True
@@ -401,8 +402,9 @@ if __name__ == "__main__":
             ocr_rois, error, msg = OCR(data, results, action, idname)
 
     #label = instance.DeviceSerialNumber+'__'+''.join(instance.TransducerData).strip()
-    if len(ocr_rois)>0:
-        writeimages(qc, ocr_rois, idname)
+    #if len(ocr_rois)>0:
+    # always write thumbnail
+    writeimages(qc, ocr_rois, idname)
     
     results.write()
 
