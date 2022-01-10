@@ -122,7 +122,7 @@ def get_idname_from_ocr(data, params):
     
     return idname
 
-def qc_series(data, results, action, idname):
+def qc_series(data, results, action, idname, override={}):
     """
     US Reverberations in Air analysis:
         Check the uniformity of the reverberation patterns
@@ -144,6 +144,10 @@ def qc_series(data, results, action, idname):
         params = action['params']
     except KeyError:
         params = {}
+
+    # overrides from test scripts
+    for k,v in override.items():
+        params[k] = v
 
     inputfile = data.series_filelist[0]  # give me a [filename]
 
@@ -272,7 +276,7 @@ def header_series(data, results, action, idname=None):
                 raise ValueError("Result '{}' has unknown result type '{}'".format(key, dtype) )
 
 
-def OCR(data, results, action, idname):
+def OCR(qc, data, results, action, idname, override={}):
     """
     Use pyOCR which for OCR
     returns rect rois for plotting in overview
@@ -282,6 +286,10 @@ def OCR(data, results, action, idname):
         params = action['params']
     except KeyError:
         params = {}
+
+    # overrides from test scripts
+    for k,v in override.items():
+        params[k] = v
 
     # optional parameters
     ocr_options = {}
@@ -336,6 +344,7 @@ def OCR(data, results, action, idname):
             
         else:
             try:
+                value = None
                 value = ocr_lib.txt2type(txt, region['type'], region['prefix'], region['suffix'])
                 if not results is None:
                     if region['type'] == 'float':
@@ -360,7 +369,7 @@ def OCR(data, results, action, idname):
 
     return rectrois, error, msg
 
-def writeimages(qc, ocr_rois, idname):
+def writeimages(qc, results, ocr_rois, idname):
     # also run ocr_series; needed as part of qc because of the boxes it generates
     xtra= {'rectrois': ocr_rois }
     if idname is None:
@@ -370,8 +379,10 @@ def writeimages(qc, ocr_rois, idname):
     qc.save_annotated_image(fname, what='overview', xtra=xtra)
     results.addObject(os.path.splitext(fname)[0],fname)
     
-if __name__ == "__main__":
-        
+def main(override={}):
+    """
+    override from testting scripts
+    """
     data, results, config = pyWADinput()
 
     instances = data.getAllInstances()
@@ -396,18 +407,22 @@ if __name__ == "__main__":
             header_series(data, results, action, idname)
         
         elif name == 'qc_series':
-            qc = qc_series(data, results, action, idname)
+            qc = qc_series(data, results, action, idname, override.get('qc', {}))
 
         elif name == 'ocr_series':
-            ocr_rois, error, msg = OCR(data, results, action, idname)
+            ocr_rois, error, msg = OCR(qc, data, results, action, idname, override.get('ocr', {}))
 
     #label = instance.DeviceSerialNumber+'__'+''.join(instance.TransducerData).strip()
     #if len(ocr_rois)>0:
     # always write thumbnail
-    writeimages(qc, ocr_rois, idname)
+    writeimages(qc, results, ocr_rois, idname)
     
     results.write()
 
     if error:
         raise ValueError('{} Cannot read OCR box for {}'.format(logTag(),msg))
     
+    
+if __name__ == "__main__":
+    # main in separate function to be called by ct_tester
+    main()
