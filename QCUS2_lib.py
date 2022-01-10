@@ -37,6 +37,7 @@ input: dicomobject,pixeldata (the pixeldata is already cleaned; color is removed
 
 
 Changelog:
+    20220110: fix conversion of runtime parameters
     20200803: separate DICOM tags for Philips/Siemens
     20200724: bugfix: did not store dicomtags properly
     20200722: Add curved box to overview
@@ -44,7 +45,7 @@ Changelog:
               just keep max depth as it could be interesting for signal level
     20200717: Based on US_AirReverberations v20200508 (aschilham, pvanhorsen), but simpler
 """
-__version__ = '20200803'
+__version__ = '20220110'
 __author__ = 'aschilham'
 
 import numpy as np
@@ -137,7 +138,6 @@ class Analysis(QCObject):
             'hcor_px':0, # skip pix left and right in auto mode
             'vcor_px':0, # skip pix above and below in auto mode
         }
-        
         self.report = {} # {'section': {'key': ( 'int', weak_num ) }}
         self.verbose = False  # dump lots of information
         self._pixmm = None    # used to convert px to mm
@@ -151,6 +151,16 @@ class Analysis(QCObject):
         set parameter name to given value, if name is a valid parameter
         """
         if name in self.params.keys():
+            if name in ['f_weak', 'f_dead', 'signal_thresh', 'circle_fitfrac']:
+                value = float(value)
+            elif name in ['cluster_fminsize', 'hcor_px', 'vcor_px']:
+                value = int(value)
+            elif name in ['init_pt_x0y0x1y1', 'pt_x0y0x1y1', 'pt_curve_radii_px', 'pt_curve_origin_px', 'pt_curve_angles_deg']:
+                if value == "":
+                    value = None
+                else:
+                    value = [int(v) for v in value]
+                
             self.params[name] = value
         else:
             raise ValueError("Unknown parameter '{}'".format(name))
