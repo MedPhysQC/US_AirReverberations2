@@ -59,7 +59,7 @@
                 "f_weak": 0.5,
                 "hcor_px": 3,
                 "rgbchannel": "B",
-                "signal_thresh": 1,
+                "signal_thresh": 5,
                 "vcor_px": 2
             }
         }

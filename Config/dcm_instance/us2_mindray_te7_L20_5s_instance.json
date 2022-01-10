@@ -65,7 +65,7 @@
                     205
                 ],
                 "rgbchannel": "B",
-                "signal_thresh": 1,
+                "signal_thresh": 5,
                 "vcor_px": 2
             }
         }
