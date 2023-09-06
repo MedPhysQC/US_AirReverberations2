@@ -20,6 +20,7 @@
 # 
 #
 # Changelog:
+#   20230906: remove deprecated warning; Pillow 10.0.0
 #   20201027: always write thumbnail
 #   20200803: bugfix: do not write out ocr images if none present; separate DICOM tags for Philips/Siemens
 #   20200724: bugfix: did not store dicomtags properly
@@ -35,7 +36,7 @@
 # ./QCUS2_wadwrapper.py -d TestSet/StudyEpiqCurve/ -c Config/us2_philips_epiq_instance.json -r results_epiq.json
 #
 
-__version__ = '20201027'
+__version__ = '20230906'
 __author__ = 'aschilham'
 
 GUIMODE = True
@@ -64,10 +65,17 @@ if scipy_version[0] == 0:
         raise RuntimeError("scipy version too old. Upgrade scipy to at least 0.10.1")
 
 if not 'MPLCONFIGDIR' in os.environ:
-    import pkg_resources
+    try:
+        # new method
+        from importlib.metadata import version as pkg_version
+    except:
+        # deprecated method
+        import pkg_resources
+        def pkg_version(what):
+            return pkg_resources.get_distribution(what).version
     try:
         #only for matplotlib < 3 should we use the tmp work around, but it should be applied before importing matplotlib
-        matplotlib_version = [int(v) for v in pkg_resources.get_distribution("matplotlib").version.split('.')]
+        matplotlib_version = [int(v) for v in pkg_version("matplotlib").split('.')]
         if matplotlib_version[0]<3:
             os.environ['MPLCONFIGDIR'] = "/tmp/.matplotlib" # if this folder already exists it must be accessible by the owner of WAD_Processor 
     except:

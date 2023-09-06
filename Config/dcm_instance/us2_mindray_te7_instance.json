@@ -20,27 +20,27 @@
                     "OCR_DynRange": {
                         "prefix": "DR",
                         "type": "float",
-                        "xywh": "1;126;58;14"
+                        "xywh": "1;89;58;14"
                     },
                     "OCR_FrameRate": {
                         "prefix": "FR",
                         "type": "float",
-                        "xywh": "1;139;58;14"
+                        "xywh": "1;104;58;14"
                     },
                     "OCR_Gain": {
                         "prefix": "G",
                         "type": "float",
-                        "xywh": "1;165;58;14"
+                        "xywh": "1;132;58;14"
                     },
                     "OCR_MechIndex": {
                         "prefix": "MI",
                         "type": "float",
-                        "xywh": "1;50;58;14"
+                        "xywh": "150;41;53;13"
                     },
                     "OCR_TissueIndex": {
                         "prefix": "TIS",
                         "type": "float",
-                        "xywh": "1;63;58;14"
+                        "xywh": "204;41;50;13"
                     }
                 },
                 "ocr_threshold": 1,
@@ -78,7 +78,7 @@
             "  If \"OCR_probeID\" is specified, OCR will be used to find an identifier for values, info from the dicom headers is used",
             "\n"
         ],
-        "version": "20210614"
+        "version": "20230222"
     },
     "info": {
         "acqdatetime": {

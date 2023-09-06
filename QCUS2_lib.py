@@ -37,6 +37,7 @@ input: dicomobject,pixeldata (the pixeldata is already cleaned; color is removed
 
 
 Changelog:
+    20230906: fix for Pillow 10.0.0
     20220110: fix conversion of runtime parameters
     20200803: separate DICOM tags for Philips/Siemens
     20200724: bugfix: did not store dicomtags properly
@@ -45,7 +46,7 @@ Changelog:
               just keep max depth as it could be interesting for signal level
     20200717: Based on US_AirReverberations v20200508 (aschilham, pvanhorsen), but simpler
 """
-__version__ = '20220110'
+__version__ = '20230906'
 __author__ = 'aschilham'
 
 import numpy as np
@@ -657,7 +658,11 @@ class Analysis(QCObject):
         imsi = im.size
         if max(imsi)>2048:
             ratio = 2048./max(imsi)
-            im = im.resize( (int(imsi[0]*ratio+.5), int(imsi[1]*ratio+.5)),Image.ANTIALIAS)
+            try:
+                im = im.resize( (int(imsi[0]*ratio+.5), int(imsi[1]*ratio+.5)),Image.ANTIALIAS)
+            except AttributeError as e:
+                # PIL 10.0.0 deprecates ANTIALIAS
+                im = im.resize( (int(imsi[0]*ratio+.5), int(imsi[1]*ratio+.5)),Image.Resampling.LANCZOS)
         im.save(fname)
 
     def pixels2mm(self, px):
