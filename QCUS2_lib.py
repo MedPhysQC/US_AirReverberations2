@@ -37,6 +37,8 @@ input: dicomobject,pixeldata (the pixeldata is already cleaned; color is removed
 
 
 Changelog:
+    20250704: fix for WAD-QC 2.1.6 (scipy.meshgrid -> np.meshgrid)
+    20230907: remove deprecated np.int, np.float, np.bool
     20230906: fix for Pillow 10.0.0
     20220110: fix conversion of runtime parameters
     20200803: separate DICOM tags for Philips/Siemens
@@ -46,7 +48,7 @@ Changelog:
               just keep max depth as it could be interesting for signal level
     20200717: Based on US_AirReverberations v20200508 (aschilham, pvanhorsen), but simpler
 """
-__version__ = '20230906'
+__version__ = '20250704'
 __author__ = 'aschilham'
 
 import numpy as np
@@ -202,7 +204,7 @@ class Analysis(QCObject):
         reverberation frequency.
 
         avg = np.average(data)
-        davg = np.empty(data.shape, dtype=np.float)
+        davg = np.empty(data.shape, dtype=float)
         dprof = np.average(data, axis=1)
         for i,d in enumerate(dprof):
             davg[i,:] = data[i,:]-d+avg
@@ -883,7 +885,7 @@ class Analysis(QCObject):
 
         ang = np.linspace(curve_angles[0], curve_angles[1], x1-x0)
         rad = np.linspace(curve_radii[0], curve_radii[1], int(0.5+curve_radii[1]-curve_radii[0]))
-        an,ra = scipy.meshgrid(ang,rad)
+        an,ra = np.meshgrid(ang,rad)
 
         xi = curve_xyr[0]+ra*np.sin(an)
         yi = curve_xyr[1]+ra*np.cos(an)
